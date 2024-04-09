@@ -15,10 +15,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.wishlistapp.data.DummyWish
 
 @Composable
-fun HomeView() {
+fun HomeView(
+    navController: NavController,
+    viewModel: WishViewModel
+) {
+
+
     val context = LocalContext.current
     Scaffold(
         topBar ={
@@ -33,7 +39,10 @@ fun HomeView() {
                 modifier = Modifier.padding(20.dp),
                 contentColor = Color.White,
                 backgroundColor = Color.Black,
-                onClick = { Toast.makeText(context,"Button Clicked",Toast.LENGTH_LONG).show() }
+                onClick = {
+                    Toast.makeText(context,"Button Clicked",Toast.LENGTH_LONG).show()
+                    navController.navigate(Screen.AddScreen.rout)
+                }
             ) {
                 Icon(imageVector = Icons.Default.Add, contentDescription = "Add")
             }
