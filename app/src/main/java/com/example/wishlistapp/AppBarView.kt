@@ -17,12 +17,16 @@ import androidx.compose.ui.unit.dp
 fun AppBarView(title:String,onBackNavClicked:()->Unit) {
 
     val navigationIcon : (@Composable () -> Unit)? ={
-        IconButton(onClick = {onBackNavClicked()}) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                contentDescription = "Back",
-                tint = Color.White,
-            )
+        if (!title.contains("WishList")){
+            IconButton(onClick = {onBackNavClicked()}) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "Back",
+                    tint = Color.White,
+                )
+            }
+        }else{
+            null
         }
     }
 
