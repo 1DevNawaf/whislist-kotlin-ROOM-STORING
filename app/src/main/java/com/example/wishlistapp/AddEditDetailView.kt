@@ -12,6 +12,7 @@ import androidx.compose.material3.Button
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -41,12 +42,23 @@ fun AddEditDetailView(
     //its taking care of everything inside the scaffold
     val scaffoldState = rememberScaffoldState()
 
+    if (id != 0L){
+        val wish = viewModel.getWishById(id).collectAsState(initial = Wish(0L,"",""))
+        viewModel.wishTitleState = wish.value.title
+        viewModel.wishDescriptionState = wish.value.description
+    }else{
+        viewModel.wishTitleState = ""
+        viewModel.wishDescriptionState = ""
+    }
+
+
+
 
 
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            AppBarView(title = if (id!=0L) "UpdateWish" else "Add Wish")
+            AppBarView(title = if (id!=0L) "Update Wish" else "Add Wish")
             {navController.navigateUp()}
         }
     ) {
@@ -83,7 +95,13 @@ fun AddEditDetailView(
                         &&viewModel.wishDescriptionState.isNotEmpty())
                     {
                         if (id != 0L){
-                            //TODO update wish
+                            viewModel.updateWish(
+                                Wish(
+                                    id=id,
+                                    title = viewModel.wishTitleState.trim(),
+                                    description = viewModel.wishDescriptionState.trim()
+                                )
+                            )
                         }else{
                             //Add wish
                             viewModel.addWish(
